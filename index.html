@@ -25,7 +25,6 @@
             align-items: center;
         }
 
-        /* 3D Golden-Yellow Lighting Accent */
         header {
             width: 100%;
             background: linear-gradient(145deg, #1a1a1a, #121212);
@@ -176,8 +175,8 @@
     <!-- Firebase v11 SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-        // NOTE: signInWithRedirect is used here to PREVENT pop-up blockers!
-        import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+        // Switched to signInWithPopup to fix the redirect loop on hosted domains
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
         // YOUR FIREBASE CONFIG
         const firebaseConfig = {
@@ -203,12 +202,6 @@
         const loginBtn = document.getElementById('google-login-btn');
         const logoutBtn = document.getElementById('logout-btn');
         const errorMsg = document.getElementById('login-error');
-
-        // Check for Redirect Results (Helps catch errors if redirect fails)
-        getRedirectResult(auth).catch((error) => {
-            console.error("Login Error:", error);
-            errorMsg.innerText = "Error logging in. Please ensure Google Sign-in is enabled in Firebase.";
-        });
 
         // Auth State Listener
         onAuthStateChanged(auth, (user) => {
@@ -240,9 +233,12 @@
             }
         });
 
-        // Login Action (Using Redirect to fix pop-up blocked error)
+        // Login Action (Using Popup)
         loginBtn.addEventListener('click', () => {
-            signInWithRedirect(auth, provider);
+            signInWithPopup(auth, provider).catch((error) => {
+                console.error("Login Error:", error);
+                errorMsg.innerText = "Error logging in: " + error.message;
+            });
         });
 
         // Logout Action
