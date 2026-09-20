@@ -15,6 +15,7 @@
             --oauth-bg: #1a1e29;
             --oauth-border: #2a3241;
             --oauth-blue: #60a5fa;
+            --row-hover: #1e1e1e;
         }
 
         body {
@@ -29,7 +30,7 @@
             min-height: 100vh;
         }
 
-        /* --- LOGIN SCREEN (Matches Screenshot) --- */
+        /* LOGIN SCREEN */
         #login-screen {
             display: flex;
             align-items: center;
@@ -60,25 +61,13 @@
             user-select: none;
         }
 
-        /* Double-tap glow effect */
         .lightning-logo.glow-active {
             filter: drop-shadow(0 0 30px rgba(250, 218, 94, 0.8)) drop-shadow(0 0 60px rgba(250, 218, 94, 0.5));
             transform: scale(1.05);
         }
 
-        .login-card h1 {
-            margin: 0 0 10px 0;
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .login-card .subtitle {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 0 0 30px 0;
-        }
+        .login-card h1 { margin: 0 0 10px 0; font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
+        .login-card .subtitle { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin: 0 0 30px 0; }
 
         .oauth-box {
             background-color: var(--oauth-bg);
@@ -92,19 +81,8 @@
             margin-bottom: 30px;
         }
 
-        .oauth-box svg {
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            stroke: var(--oauth-blue);
-        }
-
-        .oauth-box p {
-            margin: 0;
-            color: #94a3b8;
-            font-size: 0.85rem;
-            line-height: 1.4;
-        }
+        .oauth-box svg { flex-shrink: 0; width: 24px; height: 24px; stroke: var(--oauth-blue); }
+        .oauth-box p { margin: 0; color: #94a3b8; font-size: 0.85rem; line-height: 1.4; }
 
         .google-btn {
             background-color: #111;
@@ -122,22 +100,14 @@
             cursor: pointer;
             transition: background-color 0.2s, border-color 0.2s;
         }
+        .google-btn:hover { background-color: #1a1a1a; border-color: #444; }
+        .google-btn img { width: 20px; height: 20px; }
 
-        .google-btn:hover {
-            background-color: #1a1a1a;
-            border-color: #444;
-        }
-
-        .google-btn img {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* --- DASHBOARD SCREEN --- */
+        /* DASHBOARD SCREEN */
         #dashboard-screen {
             display: none;
             width: 90%;
-            max-width: 800px;
+            max-width: 900px;
             margin: 40px auto;
         }
 
@@ -152,22 +122,9 @@
 
         .user-info h2 { margin: 0; font-size: 1.8rem; display: flex; align-items: center; gap: 10px; }
         .user-info p { margin: 5px 0 0 0; color: var(--text-muted); }
-        
-        .dash-logo {
-            width: 32px; height: 32px;
-            fill: var(--primary-yellow);
-            filter: drop-shadow(0 0 10px rgba(250, 218, 94, 0.4));
-        }
+        .dash-logo { width: 32px; height: 32px; fill: var(--primary-yellow); filter: drop-shadow(0 0 10px rgba(250, 218, 94, 0.4)); }
 
-        .logout-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+        .logout-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-muted); padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
         .logout-btn:hover { background: #222; color: #fff; }
 
         .card {
@@ -177,8 +134,7 @@
             padding: 24px;
             margin-bottom: 24px;
         }
-
-        .card h3 { margin-top: 0; font-size: 1.4rem; margin-bottom: 20px; }
+        .card h3 { margin-top: 0; font-size: 1.4rem; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
 
         .badge {
             display: inline-block;
@@ -191,56 +147,92 @@
             margin-right: 10px;
         }
 
-        /* Clickable Announcements Accordion */
-        .announcement-item {
+        /* TIMETABLE GRID */
+        .timetable-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .day-column {
+            background: #111;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        .day-column.active-day {
+            border-color: var(--primary-yellow);
+            background: rgba(250, 218, 94, 0.05);
+        }
+        .day-title { font-weight: bold; margin-bottom: 15px; font-size: 1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;}
+        .day-column.active-day .day-title { color: var(--primary-yellow); }
+        .slot {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #d1d5db;
+        }
+        .slot-time { font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px; }
+
+        /* GMAIL-STYLE INBOX */
+        .inbox-container {
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            margin-bottom: 12px;
+            overflow: hidden;
             background: #111;
-            overflow: hidden;
-            transition: border-color 0.2s;
         }
-
-        .announcement-item:hover { border-color: #444; }
-
-        .announcement-header {
-            padding: 16px;
-            cursor: pointer;
+        .inbox-header {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .announcement-title { margin: 0; font-size: 1.05rem; font-weight: 600; }
-        .announcement-date { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
-        
-        .expand-icon {
+            padding: 12px 16px;
+            background: #1a1a1a;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
             color: var(--text-muted);
-            transition: transform 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
         }
+        .gmail-row {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.1s;
+        }
+        .gmail-row:hover { background-color: var(--row-hover); }
+        .gmail-row.unread .gmail-subject { font-weight: 700; color: #fff; }
+        
+        .gmail-category { width: 120px; font-weight: 600; color: var(--primary-yellow); font-size: 0.9rem; flex-shrink: 0; }
+        .gmail-content { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin: 0 15px; }
+        .gmail-subject { color: #e5e7eb; font-weight: 500; margin-right: 5px; }
+        .gmail-snippet { color: var(--text-muted); font-size: 0.95rem; }
+        .gmail-time { width: 80px; text-align: right; font-size: 0.85rem; color: var(--text-muted); flex-shrink: 0; }
 
-        .announcement-body {
-            padding: 0 16px;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: all 0.3s ease-out;
+        /* Expanded Email Body */
+        .email-body-container {
+            display: none;
+            padding: 20px 16px 20px 136px;
             background: #151515;
-            border-top: 1px solid transparent;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #d1d5db;
         }
-
-        .announcement-item.open .announcement-body {
-            padding: 16px;
-            max-height: 500px; /* arbitrary large max-height for transition */
-            opacity: 1;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .announcement-item.open .expand-icon {
-            transform: rotate(180deg);
-        }
+        .gmail-row.open { background-color: var(--row-hover); }
+        .gmail-row.open + .email-body-container { display: block; }
 
         .loading { text-align: center; color: var(--text-muted); font-size: 1rem; margin: 20px 0; }
+        
+        @media (max-width: 768px) {
+            .timetable-container { grid-template-columns: 1fr; }
+            .gmail-category { width: 80px; font-size: 0.8rem; }
+            .gmail-time { width: 60px; font-size: 0.75rem; }
+            .email-body-container { padding-left: 16px; }
+        }
     </style>
 </head>
 <body>
@@ -248,26 +240,17 @@
     <!-- LOGIN SCREEN -->
     <div id="login-screen">
         <div class="login-card">
-            <!-- Lightning SVG matches the reference image -->
             <svg id="lightning-logo" class="lightning-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
             </svg>
-            
             <h1>EE Portal</h1>
             <p class="subtitle">Sign in with your smail account to securely sync department announcements and view your schedule.</p>
-            
             <div class="oauth-box">
-                <!-- Lock Icon -->
-                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                </svg>
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
                 <p>We use Google OAuth for identity verification. We never ask for or store your passwords.</p>
             </div>
-
             <button id="google-login-btn" class="google-btn">
-                <!-- Google G Logo -->
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo">
-                Sign in with Google
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo"> Sign in with Google
             </button>
             <p id="login-error" style="color: #ef4444; margin-top: 15px; font-size: 0.9rem;"></p>
         </div>
@@ -277,37 +260,39 @@
     <div id="dashboard-screen">
         <div class="dashboard-header">
             <div class="user-info">
-                <h2>
-                    <svg class="dash-logo" viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
-                    <span id="welcome-message">Welcome!</span>
-                </h2>
+                <h2><svg class="dash-logo" viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg><span id="welcome-message">Welcome!</span></h2>
                 <p id="student-roll"></p>
             </div>
             <button id="logout-btn" class="logout-btn">Log Out</button>
         </div>
 
+        <!-- TIMETABLE SECTION -->
         <div class="card">
-            <h3>Your Timetable Batches</h3>
-            <div id="batch-info">
-                <!-- Batch info injected here -->
+            <h3>Weekly Timetable 📅 <div id="batch-info" style="font-size: 0.9rem; font-weight: normal;"></div></h3>
+            <div class="timetable-container" id="timetable-grid">
+                <!-- Days injected via JS based on batch -->
             </div>
         </div>
 
+        <!-- INBOX SECTION -->
         <div class="card">
-            <h3>Announcements 🚨</h3>
-            <div id="loading-spinner" class="loading">Syncing secure connection...</div>
-            <div id="announcements-container">
-                <!-- Announcements injected here via JS -->
+            <h3>Department Inbox 📬</h3>
+            <div id="loading-spinner" class="loading">Syncing secure inbox...</div>
+            <div class="inbox-container" id="inbox-container" style="display: none;">
+                <div class="inbox-header">
+                    <div style="width: 120px;">Category</div>
+                    <div style="flex: 1; margin-left: 15px;">Subject</div>
+                    <div style="width: 80px; text-align: right;">Received</div>
+                </div>
+                <div id="announcements-list"></div>
             </div>
         </div>
     </div>
 
-    <!-- Firebase v11 SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
-        // FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyDJK_3XlS9kNn995eX82GB8RBBxYioVTiM",
             authDomain: "elec-portal-88871.firebaseapp.com",
@@ -325,15 +310,10 @@
 
         const loginScreen = document.getElementById('login-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
-        const errorMsg = document.getElementById('login-error');
-
-        // DOUBLE-TAP LOGO INTERACTION
         const logo = document.getElementById('lightning-logo');
-        logo.addEventListener('dblclick', () => {
-            logo.classList.toggle('glow-active');
-        });
+        
+        logo.addEventListener('dblclick', () => { logo.classList.toggle('glow-active'); });
 
-        // AUTH LISTENER
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 loginScreen.style.display = 'none';
@@ -342,18 +322,18 @@
                 const email = user.email;
                 document.getElementById('welcome-message').innerText = `${user.displayName.split(' ')[0]}`;
                 
-                // Roll Extraction
                 const rollNumberStr = email.split('@')[0].slice(-3); 
                 const rollNumber = parseInt(rollNumberStr, 10);
                 
+                let gBatch = "Batch 1", pBatch = "Prog 1";
                 if (rollNumber) {
                     document.getElementById('student-roll').innerText = `Roll Number: ${email.split('@')[0].toUpperCase()}`;
-                    calculateBatches(rollNumber);
-                } else {
-                    document.getElementById('student-roll').innerText = email;
-                    document.getElementById('batch-info').innerHTML = "<p>Could not detect roll number.</p>";
+                    gBatch = (rollNumber >= 1 && rollNumber <= 79) ? "Batch 1" : "Batch 2";
+                    pBatch = `Programming ${rollNumber % 3 === 0 ? 3 : rollNumber % 3}`;
+                    document.getElementById('batch-info').innerHTML = `<span class="badge">${gBatch}</span><span class="badge">${pBatch}</span>`;
                 }
-
+                
+                renderTimetable(gBatch, pBatch);
                 fetchAnnouncements();
             } else {
                 loginScreen.style.display = 'flex';
@@ -361,44 +341,59 @@
             }
         });
 
-        // LOGIN / LOGOUT ACTIONS
         document.getElementById('google-login-btn').addEventListener('click', () => {
-            signInWithPopup(auth, provider).catch((error) => {
-                errorMsg.innerText = "Error: " + error.message;
+            signInWithPopup(auth, provider).catch(err => document.getElementById('login-error').innerText = err.message);
+        });
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
+
+        // TIMETABLE RENDERER
+        function renderTimetable(general, programming) {
+            const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+            const currentDayIndex = new Date().getDay() - 1; // 0=Mon, 4=Fri
+            
+            // Sample schedule logic - adapts dynamically based on batch
+            const schedule = {
+                "Mon": [{time: "09:00 - 10:30", name: "EE Core Lecture"}, {time: "14:00 - 17:00", name: `${programming} Lab`}],
+                "Tue": [{time: "10:00 - 11:30", name: "Math IV"}, {time: "11:45 - 13:00", name: "Electromagnetics"}],
+                "Wed": [{time: "09:00 - 12:00", name: `${general} Hardware Lab`}],
+                "Thu": [{time: "10:00 - 11:30", name: "EE Core Lecture"}, {time: "14:00 - 15:30", name: "Signals & Systems"}],
+                "Fri": [{time: "09:00 - 10:30", name: "Math IV"}, {time: "15:00 - 16:30", name: "Dept Seminar"}]
+            };
+
+            let html = '';
+            days.forEach((day, index) => {
+                const isActive = index === currentDayIndex ? "active-day" : "";
+                html += `<div class="day-column ${isActive}"><div class="day-title">${day}</div>`;
+                schedule[day].forEach(slot => {
+                    html += `<div class="slot"><span class="slot-time">${slot.time}</span>${slot.name}</div>`;
+                });
+                html += `</div>`;
             });
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            signOut(auth);
-        });
-
-        // BATCH CALCULATION
-        function calculateBatches(roll) {
-            let generalBatch = "Unknown";
-            if (roll >= 1 && roll <= 79) generalBatch = "Batch 1";
-            else if (roll >= 80 && roll <= 158) generalBatch = "Batch 2";
-
-            let progBatchNumber = roll % 3;
-            if (progBatchNumber === 0) progBatchNumber = 3;
-            let progBatch = `Programming Batch ${progBatchNumber}`;
-
-            document.getElementById('batch-info').innerHTML = `
-                <span class="badge">General: ${generalBatch}</span>
-                <span class="badge">${progBatch}</span>
-            `;
+            document.getElementById('timetable-grid').innerHTML = html;
         }
 
-        // FETCH AND RENDER ANNOUNCEMENTS (Clickable/Expandable UI)
+        // FORMAT GMAIL-STYLE DATE (e.g. "10:30 AM" for today, "Sep 21" for older)
+        function formatGmailDate(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            if (date.getDate() === today.getDate() && date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+                return date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}); // e.g., "10:30 AM"
+            }
+            return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); // e.g., "Sep 21"
+        }
+
+        // FETCH AND RENDER GMAIL INBOX
         async function fetchAnnouncements() {
             try {
                 const response = await fetch(ANNOUNCEMENTS_URL);
                 const data = await response.json();
                 
-                const container = document.getElementById('announcements-container');
                 document.getElementById('loading-spinner').style.display = 'none';
+                document.getElementById('inbox-container').style.display = 'block';
+                const list = document.getElementById('announcements-list');
                 
-                if (data.length === 0 || data.length === 1) {
-                    container.innerHTML = "<p style='color: var(--text-muted);'>No recent announcements synced.</p>";
+                if (data.length <= 1) {
+                    list.innerHTML = "<div style='padding: 20px; text-align: center; color: var(--text-muted);'>Inbox is currently empty.</div>";
                     return;
                 }
 
@@ -407,34 +402,33 @@
                     const row = data[i];
                     if (!row[0]) continue;
                     
-                    const date = new Date(row[0]).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+                    const timeDisplay = formatGmailDate(row[0]);
                     const subject = row[1];
                     const category = row[2];
                     const snippet = row[3];
                     const link = row[4];
-
-                    // Builds an expandable accordion item for each email
+                    
+                    // The row itself (Header)
                     html += `
-                        <div class="announcement-item" onclick="this.classList.toggle('open')">
-                            <div class="announcement-header">
-                                <div>
-                                    <p class="announcement-title">${subject}</p>
-                                    <p class="announcement-date">${date} • ${category}</p>
-                                </div>
-                                <div class="expand-icon">▼</div>
+                        <div class="gmail-row unread" onclick="this.classList.toggle('open')">
+                            <div class="gmail-category">${category}</div>
+                            <div class="gmail-content">
+                                <span class="gmail-subject">${subject}</span>
+                                <span class="gmail-snippet">- ${snippet.substring(0, 80)}...</span>
                             </div>
-                            <div class="announcement-body">
-                                <p style="font-size: 0.95rem; line-height: 1.5; color: #d1d5db; margin-top: 0;">${snippet}</p>
-                                ${link ? `<a href="${link}" target="_blank" style="color: var(--oauth-blue); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 16px;">🔗 View Attachment</a>` : ''}
-                            </div>
+                            <div class="gmail-time">${timeDisplay}</div>
+                        </div>
+                        <div class="email-body-container">
+                            ${snippet}
+                            ${link ? `<br><br><a href="${link}" target="_blank" style="color: var(--oauth-blue); text-decoration: none;">🔗 View Attached Document</a>` : ''}
                         </div>
                     `;
                 }
-                container.innerHTML = html;
+                list.innerHTML = html;
 
             } catch (error) {
                 console.error("Fetch error:", error);
-                document.getElementById('loading-spinner').innerText = "Failed to sync. Please check connection.";
+                document.getElementById('loading-spinner').innerText = "Failed to sync inbox. Check connection.";
             }
         }
     </script>
