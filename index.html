@@ -213,8 +213,8 @@
                 const email = user.email;
                 document.getElementById('welcome-message').innerText = `Welcome, ${user.displayName.split(' ')[0]}!`;
                 
-                // Extract Roll Number (Assuming smail format: rollnumber@smail.iitm.ac.in)
-                const rollNumberStr = email.split('@')[0].replace(/\D/g, ''); // Extracts only digits
+                // EXTRACT ROLL NUMBER: Grab the username part, then just the last 3 characters
+                const rollNumberStr = email.split('@')[0].slice(-3); 
                 const rollNumber = parseInt(rollNumberStr, 10);
                 
                 if (rollNumber) {
@@ -275,7 +275,7 @@
                 const container = document.getElementById('announcements-container');
                 document.getElementById('loading-spinner').style.display = 'none';
                 
-                if (data.length === 0) {
+                if (data.length === 0 || data.length === 1) { // 1 means only the header row exists
                     container.innerHTML = "<p>No recent announcements found.</p>";
                     return;
                 }
