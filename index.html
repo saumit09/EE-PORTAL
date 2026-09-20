@@ -3,19 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EE Student Portal</title>
+    <title>EE Portal</title>
     <style>
         :root {
-            --primary: #f5b041; /* Golden Yellow */
-            --bg-color: #121212;
-            --surface: #1e1e1e;
+            --bg-color: #0f0f0f;
+            --card-bg: #151515;
+            --border-color: #2a2a2a;
+            --primary-yellow: #fada5e;
             --text-main: #ffffff;
-            --text-muted: #b3b3b3;
-            --shadow: 0 4px 20px rgba(245, 176, 65, 0.15);
+            --text-muted: #9ca3af;
+            --oauth-bg: #1a1e29;
+            --oauth-border: #2a3241;
+            --oauth-blue: #60a5fa;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
@@ -23,149 +26,276 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        header {
-            width: 100%;
-            background: linear-gradient(145deg, #1a1a1a, #121212);
-            padding: 20px 0;
-            text-align: center;
-            border-bottom: 2px solid var(--primary);
-            box-shadow: 0 4px 15px rgba(245, 176, 65, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        h1 { margin: 0; color: var(--primary); text-transform: uppercase; letter-spacing: 2px; }
-
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 30px auto;
-        }
-
-        /* Login Screen */
+        /* --- LOGIN SCREEN (Matches Screenshot) --- */
         #login-screen {
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 70vh;
+            width: 100%;
+            height: 100vh;
         }
 
-        .login-btn {
-            background: linear-gradient(145deg, #f5b041, #d68910);
-            color: #000;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 8px;
+        .login-card {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .lightning-logo {
+            width: 80px;
+            height: 80px;
+            fill: var(--primary-yellow);
+            filter: drop-shadow(0 0 15px rgba(250, 218, 94, 0.2));
+            transition: filter 0.3s ease, transform 0.2s ease;
+            margin-bottom: 20px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(245, 176, 65, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
+            user-select: none;
         }
 
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(245, 176, 65, 0.6);
+        /* Double-tap glow effect */
+        .lightning-logo.glow-active {
+            filter: drop-shadow(0 0 30px rgba(250, 218, 94, 0.8)) drop-shadow(0 0 60px rgba(250, 218, 94, 0.5));
+            transform: scale(1.05);
         }
 
-        /* Dashboard Screen */
-        #dashboard-screen { display: none; }
+        .login-card h1 {
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
 
-        .card {
-            background-color: var(--surface);
+        .login-card .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0 0 30px 0;
+        }
+
+        .oauth-box {
+            background-color: var(--oauth-bg);
+            border: 1px solid var(--oauth-border);
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: var(--shadow);
-            border-left: 4px solid var(--primary);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-align: left;
+            margin-bottom: 30px;
         }
 
-        .card h2 { color: var(--primary); margin-top: 0; }
-
-        .badge {
-            display: inline-block;
-            background: rgba(245, 176, 65, 0.2);
-            color: var(--primary);
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            margin-right: 10px;
-            margin-bottom: 10px;
+        .oauth-box svg {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            stroke: var(--oauth-blue);
         }
 
-        /* Announcements Grid */
-        #announcements-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+        .oauth-box p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
-        .announcement-item {
-            background: #2a2a2a;
-            padding: 15px;
-            border-radius: 8px;
-            border-top: 3px solid var(--primary);
+        .google-btn {
+            background-color: #111;
+            border: 1px solid #333;
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
         }
 
-        .announcement-date { font-size: 0.8rem; color: var(--text-muted); }
-        
-        .loading { text-align: center; color: var(--primary); font-size: 1.2rem; margin: 20px 0; }
-        
-        .header-controls {
+        .google-btn:hover {
+            background-color: #1a1a1a;
+            border-color: #444;
+        }
+
+        .google-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* --- DASHBOARD SCREEN --- */
+        #dashboard-screen {
+            display: none;
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+        }
+
+        .user-info h2 { margin: 0; font-size: 1.8rem; display: flex; align-items: center; gap: 10px; }
+        .user-info p { margin: 5px 0 0 0; color: var(--text-muted); }
+        
+        .dash-logo {
+            width: 32px; height: 32px;
+            fill: var(--primary-yellow);
+            filter: drop-shadow(0 0 10px rgba(250, 218, 94, 0.4));
         }
 
         .logout-btn {
             background: transparent;
+            border: 1px solid var(--border-color);
             color: var(--text-muted);
-            border: 1px solid var(--text-muted);
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.2s;
         }
-        .logout-btn:hover { background: #333; color: white; }
+        .logout-btn:hover { background: #222; color: #fff; }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 { margin-top: 0; font-size: 1.4rem; margin-bottom: 20px; }
+
+        .badge {
+            display: inline-block;
+            background: rgba(250, 218, 94, 0.1);
+            color: var(--primary-yellow);
+            border: 1px solid rgba(250, 218, 94, 0.2);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+
+        /* Clickable Announcements Accordion */
+        .announcement-item {
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            background: #111;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .announcement-item:hover { border-color: #444; }
+
+        .announcement-header {
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .announcement-title { margin: 0; font-size: 1.05rem; font-weight: 600; }
+        .announcement-date { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+        
+        .expand-icon {
+            color: var(--text-muted);
+            transition: transform 0.3s;
+        }
+
+        .announcement-body {
+            padding: 0 16px;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.3s ease-out;
+            background: #151515;
+            border-top: 1px solid transparent;
+        }
+
+        .announcement-item.open .announcement-body {
+            padding: 16px;
+            max-height: 500px; /* arbitrary large max-height for transition */
+            opacity: 1;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .announcement-item.open .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .loading { text-align: center; color: var(--text-muted); font-size: 1rem; margin: 20px 0; }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>EE Student Portal</h1>
-    </header>
-
     <!-- LOGIN SCREEN -->
-    <div id="login-screen" class="container">
-        <h2 style="margin-bottom: 30px;">Sign in with your Smail Account</h2>
-        <button id="google-login-btn" class="login-btn">Sign in with Google</button>
-        <p id="login-error" style="color: #ff6b6b; margin-top: 15px;"></p>
+    <div id="login-screen">
+        <div class="login-card">
+            <!-- Lightning SVG matches the reference image -->
+            <svg id="lightning-logo" class="lightning-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
+            </svg>
+            
+            <h1>EE Portal</h1>
+            <p class="subtitle">Sign in with your smail account to securely sync department announcements and view your schedule.</p>
+            
+            <div class="oauth-box">
+                <!-- Lock Icon -->
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                </svg>
+                <p>We use Google OAuth for identity verification. We never ask for or store your passwords.</p>
+            </div>
+
+            <button id="google-login-btn" class="google-btn">
+                <!-- Google G Logo -->
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo">
+                Sign in with Google
+            </button>
+            <p id="login-error" style="color: #ef4444; margin-top: 15px; font-size: 0.9rem;"></p>
+        </div>
     </div>
 
     <!-- DASHBOARD SCREEN -->
-    <div id="dashboard-screen" class="container">
-        <div class="header-controls">
-            <div>
-                <h2 id="welcome-message" style="margin: 0;">Welcome!</h2>
-                <p id="student-roll" style="color: var(--text-muted); margin: 5px 0 0 0;"></p>
+    <div id="dashboard-screen">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <h2>
+                    <svg class="dash-logo" viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
+                    <span id="welcome-message">Welcome!</span>
+                </h2>
+                <p id="student-roll"></p>
             </div>
             <button id="logout-btn" class="logout-btn">Log Out</button>
         </div>
 
         <div class="card">
-            <h2>Your Timetable Batches</h2>
+            <h3>Your Timetable Batches</h3>
             <div id="batch-info">
-                <!-- Batch info injected here via JS -->
+                <!-- Batch info injected here -->
             </div>
         </div>
 
         <div class="card">
-            <h2>Department Announcements</h2>
-            <div id="loading-spinner" class="loading">Fetching latest announcements...</div>
+            <h3>Announcements 🚨</h3>
+            <div id="loading-spinner" class="loading">Syncing secure connection...</div>
             <div id="announcements-container">
                 <!-- Announcements injected here via JS -->
             </div>
@@ -175,10 +305,9 @@
     <!-- Firebase v11 SDK -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-        // Switched to signInWithPopup to fix the redirect loop on hosted domains
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
-        // YOUR FIREBASE CONFIG
+        // FIREBASE CONFIG
         const firebaseConfig = {
             apiKey: "AIzaSyDJK_3XlS9kNn995eX82GB8RBBxYioVTiM",
             authDomain: "elec-portal-88871.firebaseapp.com",
@@ -188,32 +317,32 @@
             appId: "1:1007788491395:web:9c2efc0ebf92b7867b11b6"
         };
 
-        // YOUR LIVE APPS SCRIPT URL
         const ANNOUNCEMENTS_URL = "https://script.google.com/macros/s/AKfycbxpt_JdfHTHFQiflqiVtpd3g7HM6zwjotSQ_cJxN3e5EPHNO7NDelB21U1EtnJEdYstEw/exec";
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const provider = new GoogleAuthProvider();
 
-        // UI Elements
         const loginScreen = document.getElementById('login-screen');
         const dashboardScreen = document.getElementById('dashboard-screen');
-        const loginBtn = document.getElementById('google-login-btn');
-        const logoutBtn = document.getElementById('logout-btn');
         const errorMsg = document.getElementById('login-error');
 
-        // Auth State Listener
+        // DOUBLE-TAP LOGO INTERACTION
+        const logo = document.getElementById('lightning-logo');
+        logo.addEventListener('dblclick', () => {
+            logo.classList.toggle('glow-active');
+        });
+
+        // AUTH LISTENER
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is logged in
                 loginScreen.style.display = 'none';
                 dashboardScreen.style.display = 'block';
                 
                 const email = user.email;
-                document.getElementById('welcome-message').innerText = `Welcome, ${user.displayName.split(' ')[0]}!`;
+                document.getElementById('welcome-message').innerText = `${user.displayName.split(' ')[0]}`;
                 
-                // EXTRACT ROLL NUMBER: Grab the username part, then just the last 3 characters
+                // Roll Extraction
                 const rollNumberStr = email.split('@')[0].slice(-3); 
                 const rollNumber = parseInt(rollNumberStr, 10);
                 
@@ -222,51 +351,44 @@
                     calculateBatches(rollNumber);
                 } else {
                     document.getElementById('student-roll').innerText = email;
-                    document.getElementById('batch-info').innerHTML = "<p>Could not detect roll number from email.</p>";
+                    document.getElementById('batch-info').innerHTML = "<p>Could not detect roll number.</p>";
                 }
 
                 fetchAnnouncements();
             } else {
-                // User is logged out
                 loginScreen.style.display = 'flex';
                 dashboardScreen.style.display = 'none';
             }
         });
 
-        // Login Action (Using Popup)
-        loginBtn.addEventListener('click', () => {
+        // LOGIN / LOGOUT ACTIONS
+        document.getElementById('google-login-btn').addEventListener('click', () => {
             signInWithPopup(auth, provider).catch((error) => {
-                console.error("Login Error:", error);
-                errorMsg.innerText = "Error logging in: " + error.message;
+                errorMsg.innerText = "Error: " + error.message;
             });
         });
 
-        // Logout Action
-        logoutBtn.addEventListener('click', () => {
+        document.getElementById('logout-btn').addEventListener('click', () => {
             signOut(auth);
         });
 
-        // Batch Calculation Logic
+        // BATCH CALCULATION
         function calculateBatches(roll) {
-            // General Batch (1-79 = Batch 1, 80-158 = Batch 2)
             let generalBatch = "Unknown";
             if (roll >= 1 && roll <= 79) generalBatch = "Batch 1";
             else if (roll >= 80 && roll <= 158) generalBatch = "Batch 2";
 
-            // Programming Batch (Modulo 3)
             let progBatchNumber = roll % 3;
             if (progBatchNumber === 0) progBatchNumber = 3;
             let progBatch = `Programming Batch ${progBatchNumber}`;
 
-            const html = `
+            document.getElementById('batch-info').innerHTML = `
                 <span class="badge">General: ${generalBatch}</span>
                 <span class="badge">${progBatch}</span>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 15px;">Your timetable will follow the schedule for these batches.</p>
             `;
-            document.getElementById('batch-info').innerHTML = html;
         }
 
-        // Fetch Announcements from Google Sheet Web App
+        // FETCH AND RENDER ANNOUNCEMENTS (Clickable/Expandable UI)
         async function fetchAnnouncements() {
             try {
                 const response = await fetch(ANNOUNCEMENTS_URL);
@@ -275,39 +397,44 @@
                 const container = document.getElementById('announcements-container');
                 document.getElementById('loading-spinner').style.display = 'none';
                 
-                if (data.length === 0 || data.length === 1) { // 1 means only the header row exists
-                    container.innerHTML = "<p>No recent announcements found.</p>";
+                if (data.length === 0 || data.length === 1) {
+                    container.innerHTML = "<p style='color: var(--text-muted);'>No recent announcements synced.</p>";
                     return;
                 }
 
                 let html = '';
-                // data format assumes array of arrays: [Date, Subject, Category, Snippet, DriveLink]
-                // skipping row 0 (headers)
                 for (let i = 1; i < data.length; i++) {
                     const row = data[i];
                     if (!row[0]) continue;
                     
-                    const date = new Date(row[0]).toLocaleDateString();
+                    const date = new Date(row[0]).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
                     const subject = row[1];
                     const category = row[2];
                     const snippet = row[3];
                     const link = row[4];
 
+                    // Builds an expandable accordion item for each email
                     html += `
-                        <div class="announcement-item">
-                            <div class="badge" style="margin-bottom: 5px;">${category}</div>
-                            <h3 style="margin: 10px 0; font-size: 1.1rem;">${subject}</h3>
-                            <p class="announcement-date">${date}</p>
-                            <p style="font-size: 0.95rem; line-height: 1.4;">${snippet}</p>
-                            ${link ? `<a href="${link}" target="_blank" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">View Attachment</a>` : ''}
+                        <div class="announcement-item" onclick="this.classList.toggle('open')">
+                            <div class="announcement-header">
+                                <div>
+                                    <p class="announcement-title">${subject}</p>
+                                    <p class="announcement-date">${date} • ${category}</p>
+                                </div>
+                                <div class="expand-icon">▼</div>
+                            </div>
+                            <div class="announcement-body">
+                                <p style="font-size: 0.95rem; line-height: 1.5; color: #d1d5db; margin-top: 0;">${snippet}</p>
+                                ${link ? `<a href="${link}" target="_blank" style="color: var(--oauth-blue); text-decoration: none; font-size: 0.9rem; display: inline-block; margin-bottom: 16px;">🔗 View Attachment</a>` : ''}
+                            </div>
                         </div>
                     `;
                 }
                 container.innerHTML = html;
 
             } catch (error) {
-                console.error("Error fetching announcements:", error);
-                document.getElementById('loading-spinner').innerText = "Failed to load announcements. Please check backend.";
+                console.error("Fetch error:", error);
+                document.getElementById('loading-spinner').innerText = "Failed to sync. Please check connection.";
             }
         }
     </script>
